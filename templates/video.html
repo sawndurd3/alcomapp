@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PinkFlix</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            overflow-y: scroll;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .custom-btn {
+            background-color: #FB607F;
+            border-color: #FB607F;
+            color: white;
+        }
+        .custom-btn:hover {
+            background-color: #FADADD;
+            border-color: #FADADD;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Watch: {{ video_file }}</h1>
+        <video width="100%" controls>
+            <source src="{{ url_for('static', filename='videos/' + video_file) }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <a href="{{ url_for('index') }}" class="btn custom-btn">Back to Movies</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

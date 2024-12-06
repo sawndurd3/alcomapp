@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PinkFlix</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+        <style>
+            body {
+                background-color: #121212;
+                color: white;
+                overflow-y: scroll;
+            }
+            .container {
+                margin-top: 50px;
+            }
+            h1 {
+                text-align: center;
+            }
+            .form-group {
+                margin-bottom: 20px;
+            }
+            .custom-btn {
+                background-color: #FB607F;
+                border-color: #FB607F;
+                color: white;
+            }
+            .custom-btn:hover {
+                background-color: #FADADD;
+                border-color: #FADADD;
+            }
+            .movie-list li {
+                list-style: none;
+                padding: 10px;
+                border-bottom: 1px solid #444;
+            }
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+
+            a:hover, a:active {
+                color: inherit;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+<body>
+    <div class="container">
+        <h1>
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="PinkFlix">
+        </h1>
+        <form method="post" class="my-4">
+        <div class="form-row">
+            <div class="col-md-3">
+                <button type="submit" name="action" value="Sort by Year" class="btn btn-block custom-btn">Sort by Year</button>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" name="action" value="Sort by Title" class="btn btn-block custom-btn">Sort by Title</button>
+            </div>
+            <div class="col-md-3">
+                <select name="genre" class="form-control">
+                    <option value="">Select Genre</option>
+                    {% for genre in genres %}
+                        <option value="{{ genre }}">{{ genre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 d-flex gap-2 justify-content-between">
+                <button type="submit" name="action" value="Filter" class="btn custom-btn"> Filter by Genre </button>
+                <button type="submit" name="action" value="Unfilter" class="btn custom-btn"> View All Movies </button>
+            </div>
+        </div>
+            <div class="form-row mt-2">
+                <div class="col-md-9">
+                    <input type="text" name="search_term" class="form-control" placeholder="Search by Title">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" name="action" value="Search" class="btn btn-block custom-btn">Search</button>
+                </div>
+            </div>
+        </form>
+                
+        <h2 class="mt-4">Movies:</h2>
+        <ul class="movie-list">
+            {% for movie in movies %}
+                <li>
+                    <a href="{{ url_for('video', video_file=movie['VideoFileName']) }}">
+                        {{ movie['Title'] }} ({{ movie['ReleaseYear'] }}), Genre: {{ movie['Genre'] }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        // Function to submit the corresponding button when Enter is pressed
+        document.querySelector('form').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                // Prevent the form from being submitted multiple times
+                event.preventDefault();
+
+                // Check which input field is focused
+                const genreInput = document.querySelector('input[name="genre"]');
+                const searchInput = document.querySelector('input[name="search_term"]');
+
+                if (document.activeElement === genreInput) {
+                    // Submit the Filter button if genre input is focused
+                    document.querySelector('button[name="action"][value="Filter"]').click();
+                } else if (document.activeElement === searchInput) {
+                    // Submit the Search button if search input is focused
+                    document.querySelector('button[name="action"][value="Search"]').click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
